@@ -1,0 +1,9 @@
+.alert-message{
+    background-color: rgb(255, 88, 88);
+    width: 400px;
+    text-align: center;
+    height: 30px;
+    padding-top: 5px;
+    border-radius: 5px;
+    transition: 200ms ease-in;
+}
