@@ -14,6 +14,8 @@ import ProfilePage from './pages/profilePage';
 import CheckOut from './pages/checkOut';
 import Sample from './pages/sample';
 import AddResturant from './pages/AddResturant';
+import AdminLogin from './pages/AdminLogin';
+import AdminPanel from './pages/adminPanel';
 
 const App = () => {
   
@@ -32,6 +34,8 @@ const App = () => {
         <Route path='/profile'element={<ProfilePage />}/>
         <Route path='/restaurants'element={<Restaurant />}/>
         <Route path='/restaurants/:restaurantName'element={<Table9 />}/>
+        <Route path='/admin'element={<AdminLogin />}/>
+        <Route path='/adminPanel'element={<AdminPanel />}/>
         <Route path='/addRestaurnat'element={<AddResturant />}/>
         <Route path='/sample'element={<Sample />}/>
 

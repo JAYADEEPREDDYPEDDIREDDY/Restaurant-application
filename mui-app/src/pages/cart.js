@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Box, Typography, List, ListItem, ListItemText, Button, CardMedia } from '@mui/material';
 import Layout from '../components/Layout';
 import axios from 'axios';
@@ -11,36 +11,37 @@ const CartPage = () => {
   const [cartEmpty,setCartEmpty]=useState(false);
   const [alertI,setAlertI]= useState(false);
   const [alertD,setAlertD]= useState(false);
-   const [ok,setOk]= useState(false);
   const url=`${process.env.REACT_APP_LOCAL_HOST_URL}/images/`;
   const [cookie,setCookie]= useState("");
-  const fetchCartItems = () => {
-   
+
+  
+  const fetchCartItems = useCallback(() => {
     axios
-    .post(
-      `${process.env.REACT_APP_SERVER_URL}/cart`,{},
-      {
-        withCredentials: true, 
-      }
-    )
-    .then((results) => {
-      setCartItems(results.data)
-      if(cartItems.length===0){
-        setCartEmpty(true)
-      }
-      else{
-        setCartEmpty(false)
-      }
-    }).catch((err=>console.log("your cart is empty")))
-  };
+      .post(
+        `${process.env.REACT_APP_SERVER_URL}/cart`,
+        {},
+        {
+          withCredentials: true,
+        }
+      )
+      .then((results) => {
+        setCartItems(results.data);
+        if (results.data.length === 0) {
+          setCartEmpty(true);
+        } else {
+          setCartEmpty(false);
+        }
+      })
+      .catch((err) => {
+        console.log("your cart is empty");
+      });
+  }, []); // Empty dependency array since no external values are used within
 
   useEffect(() => {
-    
-      const c=Cookies.get("jwtToken")
-      setCookie(c)
-    
+    const c = Cookies.get("jwtToken");
+    setCookie(c);
     fetchCartItems(); // Fetch initial cart items
-  }, [fetchCartItems]); 
+  }, [fetchCartItems]);
   const calculateTotal = () => {
     return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
   };
@@ -53,9 +54,7 @@ const CartPage = () => {
     else{
       setAlertD(true)
     }
-    if(ok)
-
-  {  setOk(false)
+   
     axios.post(`${process.env.REACT_APP_SERVER_URL}/${endpoint}`, { name: item.name })
     .then((response) => {
       console.log(response.data);
@@ -64,10 +63,8 @@ const CartPage = () => {
     })
     .catch((error) => {
       console.error(error);
-    })}
-    else{
-      setOk(false)
-    }
+    })
+    
   };
   
 
@@ -98,18 +95,18 @@ const CartPage = () => {
                 />
                 <CustomAlert message={`Do you want to increase the quantity`}
                open={alertI}
-               onClose={()=>{setOk(true)
+               onClose={()=>{
                 setAlertI(false)}}
                secondButton="no"
-               onSecondButtonClose={()=>{setOk(false)
+               onSecondButtonClose={()=>{
               setAlertI(false)}}
                />
                <CustomAlert message={`Do you want to decrease the quantity `}
                open={alertD}
-               onClose={()=>{setOk(true)
+               onClose={()=>{
                 setAlertD(false)}}
                secondButton="no"
-               onSecondButtonClose={()=>{setOk(false) 
+               onSecondButtonClose={()=>{
                 setAlertD(false)}}
                />
                 <Button variant="outlined" onClick={() => handleQuantityChange(item, true)}>+</Button>

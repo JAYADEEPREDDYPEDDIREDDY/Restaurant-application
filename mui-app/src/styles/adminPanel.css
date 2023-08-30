@@ -1,0 +1,20 @@
+.logo-container {
+    display: flex;
+    align-items: center;
+    transition: width 0.3s; /* Apply transition to the logo container */
+    font-size: 20px;
+  }
+  
+  .logo {
+    background-color: #001529;
+    width: 256px;
+    transition: width 0.3s;
+    height: 64px;
+   
+  }
+  .smallLogo {
+    background-color: #001529;
+    width: 80px;
+    transition: width 0.3s; 
+    height: 64px;
+  }

@@ -48,7 +48,7 @@ const ProfilePage = () => {
     
       const c=Cookies.get("jwtToken")
       setCookie(c)
-   
+       setCookie(cookie)
     axios.post(`${process.env.REACT_APP_SERVER_URL}/profile`,
     {
      
