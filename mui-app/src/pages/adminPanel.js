@@ -49,7 +49,7 @@ const AdminPanel = () => {
   
  
   const handleCollapse = collapsedValue => {
-    if (collapsed !== collapsedValue) {
+    if (collapsed !== collapsedValue) { 
       setCollapsed(collapsedValue);
     }
   };

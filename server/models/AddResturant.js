@@ -29,6 +29,7 @@ const RestaurantDetails = new mongoose.Schema({
    
     branchName: String,
     id:String,
+    status:Boolean,
     addResturantOrBranch: String,
     restaurantOwner: String,
     restaurantName: String,

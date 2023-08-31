@@ -83,7 +83,7 @@ const columns = [
   field: "action",
   headerName: "Status",
   sortable: false,
-  renderCell: ({ row }) => <Switch checked={row.action} onChange={() => handleSwitchChange(row.id,row.action)} />,
+  renderCell: ({ row }) => <Switch checked={row.status} onChange={() => handleSwitchChange(row)} />,
 
 },
 {
@@ -105,12 +105,26 @@ setSelectedComponent(<RestaurantDetails/>); // Change to the correct component n
 };
 
 
-
-
-const handleSwitchChange =(id,action)=>{
-
-console.log(action)
+const [statusSelected, setStatusSelected] = useState('');
+const handleSwitchChange = (row) => {
+  const newStatus = !row.status; // Assuming 'status' is the current status property
+  setStatusSelected(row.restaurantName);
+  
+  axios.post(`${process.env.REACT_APP_SERVER_URL}/updateStatus`, {
+    params: {
+      restaurantName: row.restaurantName,
+      newStatus: newStatus
+    }
+  })
+  .then(result => console.log(result))
+  .catch(err => console.log(err));
 }
+
+
+useEffect(() => {
+  console.log(statusSelected);
+}, [statusSelected]);
+
 
   const getRestaurantDetails = () => {
     axios.get(`${process.env.REACT_APP_SERVER_URL}/ResturantsList`)

@@ -375,8 +375,10 @@ app.post("/addNewResturant", async (req, res) => {
       delivery,
     } = req.body;
     const id = uuidv3(restaurantName, uuidv3.DNS);
+    const status = false;
     const newRestaurant = await AddRestaurant.create({
       id,
+      status,
       branchName,
       addResturantOrBranch,
       restaurantOwner,
@@ -492,5 +494,29 @@ app.get('/categories/:category', async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Server error' });
+  }
+});
+
+const AddRestaurant = require("./models/AddResturant");
+
+app.post('/updateStatus', async (req, res) => {
+  console.log("hello world")
+  const { restaurantName, newStatus } = req.body;
+
+  try {
+    console.log('Received request:', restaurantName, newStatus);
+    const updateResult = await AddRestaurant.updateOne(
+      { restaurantName: restaurantName }, // Match the restaurant by name
+      { $set: { status: newStatus } } // Update the 'action' field with newStatus
+    );
+
+    if (updateResult.nModified > 0) {
+      res.status(200).json({ message: "Status updated successfully." });
+    } else {
+      res.status(404).json({ message: "Restaurant not found." });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "An error occurred while updating status." });
   }
 });
